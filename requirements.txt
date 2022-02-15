@@ -1,0 +1,8 @@
+firebase_admin
+fastapi
+requests
+uvicorn
+PyJWT
+cryptography
+python-dotenv
+pydantic
