@@ -1,11 +1,12 @@
 import json
+import logging
 from typing import Dict, List, Optional
 import requests
 from models import MessageObject, UserProfile
 
 oauth_url_base = "https://api.line.me/oauth2/v2.1"
 api_url_base = "https://api.line.me/v2"
-api__auth_url_base = "https://api.line.me/oauth2/v2.1"
+api_auth_url_base = "https://api.line.me/oauth2/v2.1"
 
 class Singleton(object):
     def __new__(cls, *args, **kargs):
@@ -16,6 +17,7 @@ class Singleton(object):
 class MessagingApi(Singleton):
     def __init__(self, access_token):
         self.access_token = access_token
+        self.logger = logger = logging.getLogger("uvicorn")
     
     def getUserProfile(self, userId):
         headers = {"Authorization": f"Bearer {self.access_token}"}
@@ -25,7 +27,7 @@ class MessagingApi(Singleton):
           profile = UserProfile.parse_obj(json.loads(response.content.decode("utf-8")))
           return profile
         else:
-          logger.error(response.content)
+          self.logger.error(response.content)
           return
     
     def replyMessage(self, replyToken: str, messages: List[dict]):
@@ -63,7 +65,7 @@ def issueChannelAccessToken(jwt) -> Optional[Dict]:
         "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
         "client_assertion": jwt
     }
-    response = requests.post(api__auth_url_base + "/", data=payload)
+    response = requests.post(api_auth_url_base + "/token", data=payload)
     if(response.status_code == 200):
       response_dictionary = json.loads(response.content.decode())
       return response_dictionary
@@ -100,7 +102,6 @@ def getValidChannelAccessToken(jwt):
         return dict["kids"]
     else:
         return []
-
 
 def setWebhookEndpoint(access_token, endpointUrl):
     headers = {

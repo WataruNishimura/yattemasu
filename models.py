@@ -2,8 +2,8 @@
 from cgitb import text
 from enum import Enum
 from optparse import Option
-from typing import List, Optional
-from pydantic import BaseModel
+from typing import Dict, List, Optional
+from pydantic import BaseModel, Json
 
 
 class EmojiObject(BaseModel):
@@ -45,6 +45,11 @@ class MessageObject(BaseModel):
     address: Optional[str]
     latitude: Optional[float]
     longitude: Optional[float]
+
+class FlexMessageObject(BaseModel):
+  type: str
+  altText: str
+  contents: Dict
 
 class SourceObject(BaseModel):
     type: str

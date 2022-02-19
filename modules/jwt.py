@@ -30,8 +30,8 @@ def getJWTtoken(directory):
         "iss": os.getenv("CLIENT_ID"),
         "sub": os.getenv("CLIENT_ID"),
         "aud": "https://api.line.me/",
-        "exp": int(time.time()) + (60 * 25),
-        "token_exp": token_exp
+        "exp": int(time.time()) + (60 * 25), #UNIX時間
+        "token_exp": token_exp # 取得するチャネルアクセストークンの期限
     }
 
     key = RSAAlgorithm.from_jwk(private_key)

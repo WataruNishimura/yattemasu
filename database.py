@@ -22,6 +22,7 @@ class DataBase(Singleton):
         """
         self.credentials = credentials.Certificate(credentialsFile)
         self.database_url = databaseURL
+        self.access_token = ""
         firebase_admin.initialize_app(
             credential=self.credentials,
             options={"databaseURL": self.database_url})
