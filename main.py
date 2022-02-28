@@ -109,7 +109,6 @@ async def webhook_handler(request: Request, response: Response,
                 messaging_api.replyMessage(replyToken=event.replyToken,
                                            messages=replyMessages)
             elif (event.message.type == "image"):
-                logger.info(event.message.contentProvider.type)
                 profile: UserProfile = messaging_api.getUserProfile(
                     event.source.userId)
                 replyMessages = [

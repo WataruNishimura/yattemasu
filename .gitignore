@@ -10,3 +10,7 @@ credentials.json
 
 # for VSCode
 .vscode
+
+# for Docker Compose
+docker
+phpmyadmin
